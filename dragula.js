@@ -561,12 +561,15 @@ function always () { return true; }
 function getRectWidth (rect) { return rect.width || (rect.right - rect.left); }
 function getRectHeight (rect) { return rect.height || (rect.bottom - rect.top); }
 function getParent (el) { return el.parentNode === doc ? null : el.parentNode; }
-function isInput (el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || isEditable(el); }
+function isInput (el) { return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || isInputLabel(el) || isEditable(el); }
 function isEditable (el) {
   if (!el) { return false; } // no parents were editable
   if (el.contentEditable === 'false') { return false; } // stop the lookup
   if (el.contentEditable === 'true') { return true; } // found a contentEditable element in the chain
   return isEditable(getParent(el)); // contentEditable is set to 'inherit'
+}
+function isInputLabel (el) {
+  return el.tagName === 'LABEL' && el.getAttribute('for');
 }
 
 function nextEl (el) {
